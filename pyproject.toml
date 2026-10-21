@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "phonon-agent"
+version = "0.5.0"
+description = "Resumable DPA4 sampling, VASP labeling, and collection workflows"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "ase>=3.26",
+  "numpy>=1.26",
+  "PyYAML>=6",
+  "dpdispatcher>=1.0,<2",
+]
+
+[project.optional-dependencies]
+sampling = ["quests==2026.2.22"]
+conversion = ["dpdata==1.0.1", "tqdm>=4"]
+test = ["pytest>=8"]
+
+[project.urls]
+Repository = "https://github.com/moliyes/phonon-agent"
+Issues = "https://github.com/moliyes/phonon-agent/issues"
+
+[project.scripts]
+phonon-agent = "phonon_agent.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

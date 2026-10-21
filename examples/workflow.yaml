@@ -1,0 +1,47 @@
+schema_version: 2
+scripts:
+  phonon-check: scripts/00_phonon_check.py
+  md: scripts/10_run_md.py
+  entropy: scripts/20_entropy_prescreen.py
+  selection: scripts/30_select_frames.py
+  dft-prepare: scripts/40_prepare_dft.py
+  dft-submit: scripts/50_submit_dft.py
+  dft-collect: scripts/60_collect_dft.py
+project: {name: example, runs_dir: runs}
+structure: {file: inputs/POSCAR}
+model: {pretrained: builtin:dpa4, device: cuda:0}
+precheck:
+  enabled: true
+  supercell: [2, 2, 2]
+  mesh: [20, 20, 20]
+  imaginary_stop_thz: -0.1
+md:
+  ensemble: nvt
+  repeat: [2, 2, 2]
+  temperatures_k: [50, 300]
+  timestep_fs: 1.0
+  equilibration_steps: 2000
+  production_steps: 10000
+  save_interval_steps: 10
+  tdamp_fs: 100.0
+  pdamp_fs: 1000.0
+  random_seed: 42
+selection:
+  count: null
+  max_structures: 100
+  entropy_fraction: 0.95
+  include_initial_supercell: true
+  k: 32
+  cutoff_angstrom: 5.0
+  bandwidth_inv_angstrom: 0.015
+  batch_size: 1000
+  pool_stride: 1
+dft:
+  incar: inputs/INCAR
+  kpoints: inputs/KPOINTS
+  potcar:
+    # source/family default to ~/.config/phonon-agent/config.yaml.
+    variants: {Ag: Ag_pv, I: I}
+  dispatcher:
+    # machine/resources/cores/command default to the user config.
+    clean_remote_after_success: false

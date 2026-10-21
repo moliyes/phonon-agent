@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+build/
+dist/
+*.egg-info/
+.venv/
+runs/
+workspaces/
+POTCAR
+*.pt
+*.pt2
+*.pth
+machine.json
+submitted_tasks.json
+dpdispatcher.log
